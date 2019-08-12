@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">solvers</string>
+
+    <!-- Dashboard Screen -->
+    <string name="date_string">SUNDAY 2 DECEMBER</string>
+    <string name="day_string">TODAY</string>
+    <string name="get">GET</string>
+    <string name="in_app_purchass">In-App Purchases</string>
+    <string name="star_trek">Star Trek</string>
+    <string name="fleet_command">Fleet Command</string>
+    <string name="mmo_strategy">MMO Strategy Scifi </string>
+</resources>

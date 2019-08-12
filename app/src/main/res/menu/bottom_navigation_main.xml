@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:icon="@drawable/today_list"
+        android:title="Today"/>
+
+    <item
+        android:icon="@drawable/games"
+        android:title="Games"/>
+
+    <item
+        android:icon="@drawable/apps"
+        android:title="Apps"/>
+
+    <item
+        android:icon="@drawable/updates"
+        android:title="Updates"/>
+
+    <item
+        android:icon="@drawable/search"
+        android:title="Search"/>
+
+</menu>
