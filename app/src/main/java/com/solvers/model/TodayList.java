@@ -5,6 +5,8 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
+
+import com.solvers.utils.Common;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -53,10 +55,18 @@ public class TodayList implements Serializable {
 
     @BindingAdapter({"android:src"})
     public static void loadImage(ImageView view, String imageUrl) {
-        Log.d("imageUrl","imageUrl = "+imageUrl);
         Picasso.with(view.getContext())
                 .load(Uri.parse(imageUrl))
-                .fit()
+                .resize(Common.getScreenWidth(),Common.getScreenWidth())
+                .centerCrop()
+                .into(view);
+    }
+
+    @BindingAdapter({"bind:imageUrl"})
+    public static void loadDetailImage(ImageView view, String imageUrl) {
+        Picasso.with(view.getContext())
+                .load(imageUrl)
+                .resize(Common.getScreenWidth(),Common.getScreenWidth())
                 .centerCrop()
                 .into(view);
     }

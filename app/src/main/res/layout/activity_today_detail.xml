@@ -21,8 +21,8 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            android:background="@color/color_FFFFFF">
+            android:background="@color/color_FFFFFF"
+            android:fitsSystemWindows="true">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/img"
@@ -44,7 +44,17 @@
                         android:id="@+id/imageTodayImg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@{todaylist.todayImage}" />
+                        android:scaleType="centerCrop"
+                        app:imageUrl="@{todaylist.todayImage}" />
+
+                    <ImageView
+                        android:id="@+id/imgCloseDetailPage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:padding="@dimen/dimen_15"
+                        android:src="@drawable/ic_cancel"
+                        android:layout_marginTop="@dimen/dimen_10"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"

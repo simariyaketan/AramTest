@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.databinding.DataBindingUtil;
+import androidx.dynamicanimation.animation.DynamicAnimation;
+import androidx.dynamicanimation.animation.SpringAnimation;
+import androidx.dynamicanimation.animation.SpringForce;
 
 import android.content.Intent;
 import android.os.Build;
@@ -23,9 +26,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements TodayListAdaper.TodayListClickListner {
 
-    TodayListAdaper todayListAdaper; //Recycleview List Adapter
-    ActivityMainBinding activityMainBinding;//Main Activity Bind variable
-    ArrayList<TodayList> todayListArrayList;// Today ArrayList
+    private TodayListAdaper todayListAdaper; //Recycleview List Adapter
+    private ActivityMainBinding activityMainBinding;//Main Activity Bind variable
+    private ArrayList<TodayList> todayListArrayList;// Today ArrayList
+    public static int DETAIL_ACTVITY_REQUEST = 1;//Set Activity Result
+    private ItemListTodayBinding itemListTodayBinding; //Layout Binding
+    private SpringAnimation springAnim;//Spring Animation
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +60,42 @@ public class MainActivity extends AppCompatActivity implements TodayListAdaper.T
         TodayList todayList = todayListArrayList.get(positoin);
         Gson gson = new Gson();
         String todayListString = gson.toJson(todayList);
-
+        //set layout binding variable
+        this.itemListTodayBinding = itemListTodayBinding;
         Intent tdi = new Intent(MainActivity.this, TodayDetailActivity.class);
         tdi.putExtra("todayListString",todayListString);
         Pair<View, String> p1 = Pair.create((View) itemListTodayBinding.layoutItemRowMain, "image");
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, p1);
-        startActivity(tdi, options.toBundle());
+        startActivityForResult(tdi, DETAIL_ACTVITY_REQUEST, options.toBundle());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == DETAIL_ACTVITY_REQUEST) {
+            /*Spring Animation*/
+            if (itemListTodayBinding != null) {
+                springAnim = new SpringAnimation(itemListTodayBinding.getRoot(), SpringAnimation.TRANSLATION_Y);
+                SpringForce springForce = new SpringForce();
+                springForce.setFinalPosition(-20f);
+                springForce.setStiffness(SpringForce.STIFFNESS_VERY_LOW);
+                springAnim.setSpring(springForce);
+                springAnim.start();
+
+
+                springAnim.addEndListener(new DynamicAnimation.OnAnimationEndListener() {
+                    @Override
+                    public void onAnimationEnd(DynamicAnimation animation, boolean canceled, float value, float velocity) {
+                        if (springAnim.getSpring().getFinalPosition() == -20f) {
+                            SpringForce springForce = new SpringForce();
+                            springForce.setFinalPosition(0f);
+                            springForce.setStiffness(SpringForce.STIFFNESS_VERY_LOW);
+                            springForce.setDampingRatio(SpringForce.DAMPING_RATIO_HIGH_BOUNCY);
+                            springAnim.setSpring(springForce);
+                            springAnim.start();
+                        }
+                    }
+                });
+            }
+        }
     }
 }
